@@ -1,0 +1,242 @@
+[gd_scene load_steps=17 format=3 uid="uid://do3hri640sr1l"]
+
+[sub_resource type="Gradient" id="Gradient_mk5bx"]
+colors = PackedColorArray(0, 0, 0.32549, 1, 0.0313726, 0.0313726, 0.0313726, 1)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_baxqe"]
+gradient = SubResource("Gradient_mk5bx")
+fill_from = Vector2(1, 0.631868)
+
+[sub_resource type="PhysicalSkyMaterial" id="PhysicalSkyMaterial_0bajj"]
+night_sky = SubResource("GradientTexture2D_baxqe")
+
+[sub_resource type="Sky" id="Sky_ear2b"]
+sky_material = SubResource("PhysicalSkyMaterial_0bajj")
+
+[sub_resource type="Environment" id="Environment_d7h87"]
+background_mode = 2
+sky = SubResource("Sky_ear2b")
+tonemap_mode = 2
+glow_enabled = true
+
+[sub_resource type="Animation" id="Animation_6tvx1"]
+resource_name = "day_night_cycle"
+length = 10.0
+loop_mode = 1
+tracks/0/type = "rotation_3d"
+tracks/0/imported = false
+tracks/0/enabled = false
+tracks/0/path = NodePath("DirectionalLight3D")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = PackedFloat32Array()
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("DirectionalLight3D:rotation")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 10),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector3(0, 0, 0), Vector3(6.28319, 0, 0)]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("GPUParticles3D:amount")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(2.4, 7.3),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [1, 50]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("GPUParticles3D:emitting")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(2, 2.9),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [false, true]
+}
+tracks/4/type = "value"
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/path = NodePath("Fire:emitting")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/keys = {
+"times": PackedFloat32Array(4.9, 9.7),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [false, true]
+}
+tracks/5/type = "value"
+tracks/5/imported = false
+tracks/5/enabled = true
+tracks/5/path = NodePath("Fire/OmniLight3D:light_energy")
+tracks/5/interp = 1
+tracks/5/loop_wrap = true
+tracks/5/keys = {
+"times": PackedFloat32Array(4.9, 9.7),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [0.0, 6.012]
+}
+
+[sub_resource type="Animation" id="Animation_fbsrq"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("DirectionalLight3D:rotation")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector3(0, 0, 0)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("GPUParticles3D:amount")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [50]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("GPUParticles3D:emitting")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [false]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("Fire/OmniLight3D:light_energy")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [0.0]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_alp7v"]
+_data = {
+"RESET": SubResource("Animation_fbsrq"),
+"day_night_cycle": SubResource("Animation_6tvx1")
+}
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_ofglc"]
+albedo_color = Color(0.0392157, 0.184314, 0.0784314, 1)
+
+[sub_resource type="PlaneMesh" id="PlaneMesh_ddbmg"]
+material = SubResource("StandardMaterial3D_ofglc")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_66mye"]
+emission_shape_offset = Vector3(0, 5, 0)
+emission_shape = 3
+emission_box_extents = Vector3(3, 1, 4)
+scale_min = 0.1
+scale_max = 0.1
+color = Color(0, 0.552941, 0.698039, 1)
+collision_mode = 2
+
+[sub_resource type="Curve" id="Curve_1m6xl"]
+_data = [Vector2(0.105882, 0), 0.0, 0.0, 0, 0, Vector2(0.341176, 0.131868), 0.0, 0.0, 0, 0, Vector2(0.811765, 0.230769), 0.0, 0.0, 0, 0, Vector2(0.964706, 0.164835), 0.0, 0.0, 0, 0]
+point_count = 4
+
+[sub_resource type="RibbonTrailMesh" id="RibbonTrailMesh_s6bmk"]
+size = 1.5
+sections = 4
+curve = SubResource("Curve_1m6xl")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_e27dq"]
+particle_flag_rotate_y = true
+particle_flag_damping_as_friction = true
+emission_shape_scale = Vector3(2, 2, 2)
+emission_shape = 3
+emission_box_extents = Vector3(0.5, 1, 0.5)
+angle_min = -215.0
+angle_max = 266.9
+direction = Vector3(1, 1, 0)
+gravity = Vector3(0, 9.8, 0)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_t7dlt"]
+albedo_color = Color(0.678431, 0.317647, 0.207843, 1)
+
+[sub_resource type="PrismMesh" id="PrismMesh_2863n"]
+material = SubResource("StandardMaterial3D_t7dlt")
+left_to_right = 0.1
+size = Vector3(0.2, 0.5, 0.2)
+
+[node name="DayNightCycle" type="Node3D"]
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = SubResource("Environment_d7h87")
+
+[node name="Camera3D" type="Camera3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 0.998342, -0.057564, 0, 0.057564, 0.998342, -0.0209227, 0.925266, 7.22748)
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+"": SubResource("AnimationLibrary_alp7v")
+}
+autoplay = "day_night_cycle"
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+transform = Transform3D(6.61626, 0, 0, 0, 1, 0, 0, 0, 10.5319, 0, 0, 0)
+mesh = SubResource("PlaneMesh_ddbmg")
+
+[node name="GPUParticlesCollisionBox3D" type="GPUParticlesCollisionBox3D" parent="MeshInstance3D"]
+transform = Transform3D(1, 0, 0, 0, 0.0455093, 0, 0, 0, 1, 0, 0, 0)
+
+[node name="GPUParticles3D" type="GPUParticles3D" parent="."]
+transform = Transform3D(1.58026, 0, 0, 0, 1, 0, 0, 0, 2.18424, 0, 2.92674, 0)
+emitting = false
+amount = 50
+trail_enabled = true
+trail_lifetime = 0.2
+process_material = SubResource("ParticleProcessMaterial_66mye")
+draw_pass_1 = SubResource("RibbonTrailMesh_s6bmk")
+
+[node name="Fire" type="GPUParticles3D" parent="."]
+transform = Transform3D(0.404123, 0, 0, 0, 0.421995, 0, 0, 0, 0.38051, 0, 0.310207, 0)
+transparency = 0.23
+cast_shadow = 0
+gi_mode = 0
+amount = 5
+lifetime = 0.21
+speed_scale = 1.17
+randomness = 1.0
+process_material = SubResource("ParticleProcessMaterial_e27dq")
+draw_pass_1 = SubResource("PrismMesh_2863n")
+
+[node name="OmniLight3D" type="OmniLight3D" parent="Fire"]
+transform = Transform3D(2.47449, 0, 0, 0, 2.36969, 0, 0, 0, 2.62805, 0.119861, 1.39019, -0.149979)
+light_color = Color(0.745098, 0.203922, 0.141176, 1)
+light_energy = 0.0
+light_size = 0.072
